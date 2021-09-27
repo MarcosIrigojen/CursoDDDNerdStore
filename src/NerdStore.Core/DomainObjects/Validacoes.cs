@@ -136,6 +136,38 @@ namespace NerdStore.Core.DomainObjects
             }
         }
 
+        public static void ValidarSeMaiorQue(long valor, long maximo, string mensagem)
+        {
+            if (valor > maximo)
+            {
+                throw new DomainException(mensagem);
+            }
+        }
+
+        public static void ValidarSeMaiorQue(double valor, double maximo, string mensagem)
+        {
+            if (valor > maximo)
+            {
+                throw new DomainException(mensagem);
+            }
+        }
+
+        public static void ValidarSeMaiorQue(decimal valor, decimal maximo, string mensagem)
+        {
+            if (valor > maximo)
+            {
+                throw new DomainException(mensagem);
+            }
+        }
+
+        public static void ValidarSeMaiorQue(int valor, int maximo, string mensagem)
+        {
+            if (valor > maximo)
+            {
+                throw new DomainException(mensagem);
+            }
+        }
+
         public static void ValidarSeFalso(bool boolvalor, string mensagem)
         {
             if (!boolvalor)
