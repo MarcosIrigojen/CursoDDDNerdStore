@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using NerdStore.Core.Messages;
 using NerdStore.Core.Messages.CommonMessages.Notifications;
+using NerdStore.Vendas.Application.Events;
 using NerdStore.Vendas.Domain;
 using System.Linq;
 using System.Threading;
@@ -33,6 +34,7 @@ namespace NerdStore.Vendas.Application.Commands
                 pedido.AdicionarItem(pedidoItem);
 
                 _pedidoRepository.Adicionar(pedido);
+                pedido.AdicionarEvento(new PedidoRascunhoIniciadoEvent(comando.ClienteId, comando.ProdutoId));
             }
             else
             {
@@ -48,8 +50,12 @@ namespace NerdStore.Vendas.Application.Commands
                     pedido.AdicionarItem(pedidoItem);
 
                 }
+
+                pedido.AdicionarEvento(new PedidoAtualizadoEvent(pedido.ClienteId, pedido.Id, pedido.ValorTotal));
+
             }
 
+            pedido.AdicionarEvento(new PedidoItemAdicionadoEvent(pedido.ClienteId, pedido.Id, comando.ProdutoId, comando.Nome, comando.ValorUnitario, comando.Quantidade));
             return await _pedidoRepository.UnitOfWork.Commit();
         }
 
